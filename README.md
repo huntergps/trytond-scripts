@@ -20,3 +20,13 @@ Just run this:
 ### Switching modules' versions to any you want:  
 Run this and don't forget to specify the desired version as a 1st parameter, like this:  
 `. change_modules_version.sh 3.8`
+
+
+### Installing all the modules:  
+You need to get the `proteus` to run this, so:  
+```
+pip install proteus
+python install_modules.py
+```
+In case anything goes wrong - please contact Alex Melkoff.
+
