@@ -21,4 +21,4 @@ done
 echo 'Cleaning modules.txt file...'
 rm modules.txt
 
-cd ../../../trytond_scripts
+cd ../../../trytond-scripts/

@@ -30,6 +30,7 @@ for m in $( ls -d */ ); do
             for v in `seq ${target_version: -1} -1 0`; do
                 version=${target_version:: -1}$v
                 if [[ `git ls-remote --heads origin $version` ]]; then
+                    # Checkout and suppress any messages
                     git checkout $version  >/dev/null 2>&1
                     found=1
                     break
@@ -43,4 +44,4 @@ for m in $( ls -d */ ); do
     cd ..
 done
 
-cd ../../../trytond_scripts
+cd ../../../trytond-scripts/
