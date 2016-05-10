@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "Checkouting all the modules to version "$1", or the most closest minor release to it."
+echo "Checkouting all the modules to version "$1
 
 target_version=$1
 
@@ -36,7 +36,12 @@ for m in $( ls -d */ ); do
                     break
                 fi
             done
-            if [[ $found = 0 ]]; then echo "  Error: No suitable version was found!"; fi
+            if [[ $found = 0 ]]; then
+                echo "  Error: No suitable version was found! Deleting this module."
+                cd ..
+                rm -rf $m
+                continue
+            fi
         fi
     fi
 
