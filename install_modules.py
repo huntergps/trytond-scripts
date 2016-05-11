@@ -1,13 +1,15 @@
 #!/bin/python
+import os
 from proteus import config, Model, Wizard, Report
 
-CONFIG = "/vagrant/trytond.conf"
+
+CONFIG_FILE_PATH = os.environ.get('CONFIG_FILE_PATH', '/tryton/config.ini')
 
 FAILED = []
 BLACKLIST = ["product_classification_taxonomic",
              "purchase_request"]
 
-config = config.set_trytond("tryton_database", config_file=CONFIG)
+config = config.set_trytond("tryton_database", config_file=CONFIG_FILE_PATH)
 
 
 def main():

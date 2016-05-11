@@ -1,10 +1,10 @@
+#!/bin/python
 from jinja2 import Environment, FileSystemLoader
 import os
 
 
-# Capture our current directory
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
-CONFIG_FILE_PATH = '/tryton/config.ini'
+CONFIG_FILE_PATH = os.environ.get('CONFIG_FILE_PATH', '/tryton/config.ini')
 
 
 def generate_template():
@@ -13,9 +13,8 @@ def generate_template():
     template = j2_env.get_template('config_template.ini')
 
     return template.render(
-        # maps env vars to the config vars
         DATABASE_URI=os.environ.get('DATABASE_URI'),
-        STATIC_PATH=os.environ.get('STATIC_PATH'),  # path for static user files
+        STATIC_PATH=os.environ.get('STATIC_PATH'),
     )
 
 

@@ -18,33 +18,31 @@ RUN apt-get -y install build-essential git python-pip python-dev python-lxml lib
     easy_install pip
 
 
-# Install utility scripts, Trytond, all Trytond modules (and switch them to the appropriate version), SAO
+# Install utility scripts, Trytond, download all Trytond modules (and switch them to the appropriate version), SAO
 WORKDIR /tryton
 RUN git clone https://github.com/semilimes/trytond-scripts.git && \
-    pip install -r trytond-scripts/requirements_tryton.txt
-
-RUN git clone -b $TRYTON_VER https://github.com/tryton/trytond.git
+    pip install -r trytond-scripts/requirements_tryton.txt && \
+    git clone -b $TRYTON_VER https://github.com/tryton/trytond.git
 WORKDIR /tryton/trytond
 RUN python setup.py install
 
 WORKDIR /tryton/trytond-scripts
-RUN apt-get install wget
-RUN /tryton/trytond-scripts/download_all_modules.sh $TRYTON_VER
-RUN /tryton/trytond-scripts/change_modules_version.sh $TRYTON_VER
-RUN python /tryton/trytond-scripts/install_modules.py
+RUN apt-get install wget && \
+    /tryton/trytond-scripts/download_all_modules.sh $TRYTON_VER && \
+    python /tryton/trytond-scripts/generate_config.py
 
 WORKDIR /tryton
-RUN sudo apt-get install npm && \
-    sudo npm install -g bower grunt grunt-cli && \
-    git clone https://github.com/tryton/sao.git
+RUN apt-get install npm
+RUN npm install -g bower grunt grunt-cli
+RUN git clone https://github.com/tryton/sao.git
 WORKDIR sao
-RUN npm install && \
-    npm run postinstall && \
-    bower install && \
-    grunt
+RUN npm install
+RUN ln -s /usr/bin/nodejs /usr/bin/node
+RUN bower install --allow-root
+RUN grunt --force
 WORKDIR /tryton
 
 
 EXPOSE 	8000
-CMD ["-c", "/etc/trytond.conf", "-v"]
+CMD ["-c", "/tryton/config.ini", "-v"]
 ENTRYPOINT ["/usr/local/bin/trytond"]
