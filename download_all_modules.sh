@@ -11,8 +11,6 @@ wget https://downloads.tryton.org/modules.txt
 
 for i in $( cat modules.txt )
 do
-    echo ' '
-    echo 'Cloning '$i
     git clone -b $target_version https://github.com/tryton/$i
 done
 
