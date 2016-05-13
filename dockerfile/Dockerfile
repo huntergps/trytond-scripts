@@ -42,6 +42,10 @@ RUN bower install --allow-root
 RUN grunt --force
 WORKDIR /tryton
 
+# Config path and admin db pswd path (deleted after initialization)
+ENV TRYTOND_CONFIG /tryton/config.ini
+ENV TRYTONPASSFILE /tryton/TRYTONPASSFILE.ini
+
 
 EXPOSE 	8000
 CMD ["-c", "/tryton/config.ini", "-v"]
