@@ -1,27 +1,38 @@
 #!/bin/python
+from uuid import uuid4
+
 from jinja2 import Environment, FileSystemLoader
 import os
 
 
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 CONFIG_FILE_PATH = os.environ.get('CONFIG_FILE_PATH', '/tryton/config.ini')
+TRYTONPASS_FILE_PATH = os.environ.get('TRYTONPASSFILE', '/tryton/TRYTONPASSFILE.ini')
 
 
-def generate_template():
-    j2_env = Environment(loader=FileSystemLoader(THIS_DIR))
+class FileCreater(object):
+    def __init__(self):
+        self.j2_env = Environment(loader=FileSystemLoader(THIS_DIR))
 
-    template = j2_env.get_template('config_template.ini')
+    def generate_config(self):
+        template = self.j2_env.get_template('config_template.ini')
+        config = template.render(
+            DATABASE_URI=os.environ.get('DATABASE_URI'),
+            STATIC_PATH=os.environ.get('STATIC_PATH'),
+        )
+        self.save_file(config, CONFIG_FILE_PATH)
 
-    return template.render(
-        DATABASE_URI=os.environ.get('DATABASE_URI'),
-        STATIC_PATH=os.environ.get('STATIC_PATH'),
-    )
+    def generate_passfile(self):
+        pswd = uuid4().hex
+        self.save_file(pswd, TRYTONPASS_FILE_PATH)
 
-
-def save_template(data):
-    with open(CONFIG_FILE_PATH, "w") as text_file:
-        text_file.write(data)
+    @staticmethod
+    def save_file(data, file_path):
+        with open(file_path, "w") as text_file:
+            text_file.write(data)
 
 
 if __name__ == '__main__':
-    save_template(generate_template())
+    fc = FileCreater()
+    fc.generate_config()
+    fc.generate_passfile()
