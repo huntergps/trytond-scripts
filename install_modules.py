@@ -3,7 +3,7 @@ import os
 from proteus import config, Model, Wizard, Report
 
 
-CONFIG_FILE_PATH = os.environ.get('CONFIG_FILE_PATH', '/tryton/config.ini')
+CONFIG_FILE_PATH = os.environ.get('TRYTOND_CONFIG', '/tryton/config.ini')
 
 FAILED = []
 BLACKLIST = ["product_classification_taxonomic",

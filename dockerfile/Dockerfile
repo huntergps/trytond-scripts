@@ -47,6 +47,6 @@ ENV TRYTOND_CONFIG /tryton/config.ini
 ENV TRYTONPASSFILE /tryton/TRYTONPASSFILE.ini
 
 
-EXPOSE 	8000
+EXPOSE 8000
 CMD ["-c", "/tryton/config.ini", "-v"]
 ENTRYPOINT ["/usr/local/bin/trytond"]
