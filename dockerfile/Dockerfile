@@ -18,8 +18,8 @@ RUN apt-get -y install build-essential git python-pip python-dev python-lxml lib
     easy_install pip
 
 
-# Install utility scripts, Trytond, download all Trytond modules (and switch them to the appropriate version), SAO
-WORKDIR /tryton
+# Install utility scripts, Trytond, download all Trytond modules, SAO
+WORKDIR /tryton  # ...
 RUN git clone https://github.com/semilimes/trytond-scripts.git && \
     pip install -r trytond-scripts/requirements_tryton.txt && \
     git clone -b $TRYTON_VER https://github.com/tryton/trytond.git
@@ -32,15 +32,14 @@ RUN apt-get install wget && \
     python /tryton/trytond-scripts/generate_config.py
 
 WORKDIR /tryton
-RUN apt-get install npm
-RUN npm install -g bower grunt grunt-cli
-RUN git clone https://github.com/tryton/sao.git
+RUN apt-get install npm && \
+    npm install -g bower grunt grunt-cli && \
+    git clone https://github.com/tryton/sao.git
 WORKDIR sao
-RUN npm install
-RUN ln -s /usr/bin/nodejs /usr/bin/node
-RUN bower install --allow-root
-RUN grunt --force
-WORKDIR /tryton
+RUN npm install && \
+    ln -s /usr/bin/nodejs /usr/bin/node && \
+    bower install --allow-root && \
+    grunt --force
 
 # Config path and admin db pswd path (deleted after initialization)
 ENV TRYTOND_CONFIG /tryton/config.ini
