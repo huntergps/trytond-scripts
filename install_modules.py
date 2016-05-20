@@ -26,10 +26,14 @@ def main():
         if not_installed_module.state != u"installed":
             install_module(not_installed_module)
 
-    # print out list of modules that failed to install
-    if FAILED:
-        print("\nFAILED MODULES:")
-        print("\n".join(FAILED))
+    print 'Done. \n' \
+          'Installed modules: \n%s\n' \
+          'Skipped modules: \n%s\n' \
+          'Failed modules: \n%s\n' % (
+        '\n'.join(INSTALLED) or '-',
+        '\n'.join(SKIPPED) or '-',
+        '\n'.join(FAILED) or '-'
+    )
 
 
 def install_module(module):
@@ -62,16 +66,6 @@ def install_module(module):
         return False
     else:
         INSTALLED.append(module.name)
-
-    print 'Done. \n' \
-          'Installed modules: \n%s\n' \
-          'Skipped modules: \n%s' \
-          'Failed modules: \n%s' % (
-        '\n'.join(INSTALLED) or '-',
-        '\n'.join(SKIPPED) or '-',
-        '\n'.join(FAILED) or '-'
-    )
-
     return True
 
 if __name__ == "__main__":
