@@ -14,14 +14,14 @@ ENV LC_ALL en_US.UTF-8
 
 ENV TRYTON_VER 3.8
 ENV TRYTOND_CONFIG /tryton/config.ini
-ENV TRYTONPASSFILE /tryton/TRYTONPASSFILE.ini  # admin-user pswd path (deleted after initialization)
+ENV TRYTONPASSFILE /tryton/TRYTONPASSFILE.ini
 
 # Install utility scripts, Trytond, download all Trytond modules, SAO
 WORKDIR /tryton
 RUN git clone https://github.com/semilimes/trytond-scripts.git && \
     pip install -r trytond-scripts/requirements_tryton.txt && \
     pip install proteus==$TRYTON_VER && \
-    /tryton/trytond-scripts/download_all_modules_pip.sh $TRYTON_VER  # kill cache
+    /tryton/trytond-scripts/download_all_modules_pip.sh $TRYTON_VER
 
 RUN apt-get install npm && \
     npm install -g bower grunt grunt-cli && \
