@@ -5,7 +5,7 @@ MAINTAINER Mikhail Savushkin <mikhail.savushkin@semilimes.com>
 
 # Update package repository. Install Dependencies
 RUN apt-get update && \
-    apt-get -y install language-pack-en zsh htop build-essential git python-pip python-dev python-lxml libxml2-dev libxslt1-dev python-bcrypt libpq-dev unoconv postgresql postgresql-server-dev-all libsasl2-dev libssl-dev libffi-dev libldap2-dev python-setuptools nodejs npm easy_install pip wget nodejs-legacy
+    apt-get -y install language-pack-en zsh htop build-essential git python-pip python-dev python-lxml libxml2-dev libxslt1-dev python-bcrypt libpq-dev unoconv postgresql postgresql-server-dev-all libsasl2-dev libssl-dev libffi-dev libldap2-dev python-setuptools nodejs nodejs-legacy npm wget && easy_install pip
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV LANGUAGE en_US.UTF-8
