@@ -16,13 +16,13 @@ config = config.set_trytond(DB_NAME, config_file=CONFIG_FILE_PATH)
 def main():
     Module = Model.get("ir.module")
 
-    uninstalled_modules = Module.find([("state", "!=", "installed")])
+    not_installed_modules = Module.find([("state", "!=", "installed")])
 
-    for uninstalled_module in uninstalled_modules:
+    for not_installed_module in not_installed_modules:
 
         # double check in case this module was installed as dependency
-        if uninstalled_module.state != u"installed":
-            install_module(uninstalled_module)
+        if not_installed_module.state != u"installed":
+            install_module(not_installed_module)
 
     # print out list of modules that failed to install
     if FAILED:
@@ -44,8 +44,7 @@ def install_module(module):
             return False
 
         if not install_module(missing_dependency):
-            print("[!] Skipped installation of {} because of "
-                  "failed dependencies".format(module.name))
+            print("[!] Skipped installation of {} because of failed dependencies".format(module.name))
             return False
 
     # mark module to install and run installation wizard
@@ -55,6 +54,7 @@ def install_module(module):
         Wizard('ir.module.install_upgrade').execute('upgrade')
     except Exception as e:
         print("[!] Failed to install {}".format(module.name))
+        print(e.message)
         FAILED.append(module.name)
         return False
 

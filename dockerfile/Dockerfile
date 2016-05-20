@@ -17,19 +17,17 @@ ENV LC_ALL en_US.UTF-8
 RUN apt-get -y install build-essential git python-pip python-dev python-lxml libxml2-dev libxslt1-dev python-bcrypt libpq-dev unoconv postgresql postgresql-server-dev-all libsasl2-dev libssl-dev libffi-dev libldap2-dev python-setuptools nodejs npm && \
     easy_install pip
 
-
 # Install utility scripts, Trytond, download all Trytond modules, SAO
 WORKDIR /tryton
 RUN git clone https://github.com/semilimes/trytond-scripts.git && \
     pip install -r trytond-scripts/requirements_tryton.txt && \
-    git clone -b $TRYTON_VER https://github.com/tryton/trytond.git
+    git clone -b $TRYTON_VER https://github.com/tryton/trytond.git # cache bumper
 WORKDIR /tryton/trytond
 RUN python setup.py install
 
 WORKDIR /tryton/trytond-scripts
 RUN apt-get install wget && \
-    /tryton/trytond-scripts/download_all_modules.sh $TRYTON_VER && \
-    python /tryton/trytond-scripts/generate_config.py
+    /tryton/trytond-scripts/download_all_modules.sh $TRYTON_VER
 
 WORKDIR /tryton
 RUN apt-get install npm && \
@@ -40,6 +38,7 @@ RUN apt-get install -y nodejs-legacy && \
     npm install && \
     bower install --allow-root && \
     grunt --force
+WORKDIR /tryton
 
 # Config path and admin db pswd path (deleted after initialization)
 ENV TRYTOND_CONFIG /tryton/config.ini
