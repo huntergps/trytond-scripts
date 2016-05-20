@@ -3,13 +3,14 @@ import os
 from proteus import config, Model, Wizard, Report
 
 
+DB_NAME = os.environ.get('DATABASE_NAME')
 CONFIG_FILE_PATH = os.environ.get('TRYTOND_CONFIG', '/tryton/config.ini')
 
 FAILED = []
 BLACKLIST = ["product_classification_taxonomic",
              "purchase_request"]
 
-config = config.set_trytond("tryton_database", config_file=CONFIG_FILE_PATH)
+config = config.set_trytond(DB_NAME, config_file=CONFIG_FILE_PATH)
 
 
 def main():
