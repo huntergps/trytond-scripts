@@ -6,7 +6,9 @@ from proteus import config, Model, Wizard, Report
 DB_NAME = os.environ.get('DATABASE_NAME')
 CONFIG_FILE_PATH = os.environ.get('TRYTOND_CONFIG', '/tryton/config.ini')
 
+INSTALLED = []
 FAILED = []
+SKIPPED = []
 BLACKLIST = ["product_classification_taxonomic",
              "purchase_request"]
 
@@ -33,7 +35,8 @@ def main():
 def install_module(module):
     """Lookup uninstalled dependencies and recuresively install them."""
     if module.name in BLACKLIST:
-        print("[!] Skipped installation of blacklisted module {}".format(module.name))
+        # print("[!] Skipped installation of blacklisted module {}".format(module.name))
+        SKIPPED.append(module.name)
         return False
 
     # install missing dependencies recursively
@@ -48,15 +51,26 @@ def install_module(module):
             return False
 
     # mark module to install and run installation wizard
-    print("Installing module {}".format(module.name))
+    # print("Installing module {}".format(module.name))
     try:
         module.click("install")
         Wizard('ir.module.install_upgrade').execute('upgrade')
     except Exception as e:
-        print("[!] Failed to install {}".format(module.name))
-        print(e.message)
+        # print("[!] Failed to install {}".format(module.name))
+        # print(e.message)
         FAILED.append(module.name)
         return False
+    else:
+        INSTALLED.append(module.name)
+
+    print 'Done. \n' \
+          'Installed modules: \n%s\n' \
+          'Skipped modules: \n%s' \
+          'Failed modules: \n%s' % (
+        '\n'.join(INSTALLED) or '-',
+        '\n'.join(SKIPPED) or '-',
+        '\n'.join(FAILED) or '-'
+    )
 
     return True
 
