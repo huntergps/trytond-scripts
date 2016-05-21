@@ -22,10 +22,6 @@ class FileCreater(object):
         )
         self.save_file(config, CONFIG_FILE_PATH)
 
-    def generate_passfile(self):
-        pswd = uuid4().hex
-        self.save_file(pswd, TRYTONPASS_FILE_PATH)
-
     @staticmethod
     def save_file(data, file_path):
         with open(file_path, "w") as text_file:
@@ -35,4 +31,3 @@ class FileCreater(object):
 if __name__ == '__main__':
     fc = FileCreater()
     fc.generate_config()
-    fc.generate_passfile()
