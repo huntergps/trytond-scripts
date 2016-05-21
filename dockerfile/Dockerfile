@@ -33,5 +33,5 @@ RUN npm install && \
 WORKDIR /tryton
 
 EXPOSE 8000
-# CMD ["-c", "/tryton/config.ini", "-v"]
-# ENTRYPOINT ["/usr/local/bin/trytond"]
+CMD ["-d $DATABASE_NAME"]
+ENTRYPOINT ["/usr/local/bin/trytond"]
