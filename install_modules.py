@@ -4,7 +4,7 @@ from proteus import config, Model, Wizard, Report
 
 
 DB_NAME = os.environ.get('DATABASE_NAME')
-CONFIG_FILE_PATH = os.environ.get('TRYTOND_CONFIG', '/tryton/config.ini')
+CONFIG_FILE_PATH = os.environ.get('TRYTOND_CONFIGx', '/tryton/config.ini')
 
 INSTALLED = []
 FAILED = []

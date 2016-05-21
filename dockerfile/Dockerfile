@@ -13,8 +13,6 @@ ENV LANG en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 
 ENV TRYTON_VER 3.8
-ENV TRYTOND_CONFIG /tryton/config.ini
-ENV TRYTONPASSFILE /tryton/TRYTONPASSFILE.ini
 
 # Install utility scripts, Trytond, download all Trytond modules, SAO
 WORKDIR /tryton
@@ -31,6 +29,9 @@ RUN npm install && \
     bower install --allow-root && \
     grunt --force
 WORKDIR /tryton
+
+ENV TRYTOND_CONFIG /tryton/trytond-scripts/config_lite.ini
+ENV TRYTONPASSFILE /tryton/TRYTONPASSFILE.ini
 
 EXPOSE 8000
 CMD ["-v"]
