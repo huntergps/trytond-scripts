@@ -19,7 +19,7 @@ WORKDIR /tryton
 RUN git clone https://github.com/semilimes/trytond-scripts.git && \
     pip install -r trytond-scripts/requirements_tryton.txt && \
     pip install proteus==$TRYTON_VER && \
-    /tryton/trytond-scripts/download_all_modules_pip.sh $TRYTON_VER && echo 1
+    /tryton/trytond-scripts/download_all_modules_pip.sh $TRYTON_VER
 
 RUN apt-get install npm && \
     npm install -g bower grunt grunt-cli && \
