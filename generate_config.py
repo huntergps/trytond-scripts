@@ -13,21 +13,25 @@ TRYTONPASS_FILE_PATH = os.environ.get('TRYTONPASSFILE', '/tryton/TRYTONPASSFILE.
 class FileCreater(object):
     def __init__(self):
         self.j2_env = Environment(loader=FileSystemLoader(THIS_DIR))
+        self.data = None
 
     def generate_config(self):
         template = self.j2_env.get_template('config_template.ini')
-        config = template.render(
+        self.data = template.render(
             DATABASE_URI=os.environ.get('DATABASE_URI'),
             STATIC_PATH=os.environ.get('STATIC_PATH'),
         )
-        self.save_file(config, CONFIG_FILE_PATH)
+        self.save_file()
 
-    @staticmethod
-    def save_file(data, file_path):
-        with open(file_path, "w") as text_file:
-            text_file.write(data)
+    def save_file(self):
+        with open(CONFIG_FILE_PATH, "w") as text_file:
+            text_file.write(self.data)
 
 
 if __name__ == '__main__':
     fc = FileCreater()
     fc.generate_config()
+    print('='*30)
+    print(' Config generated:')
+    print(fc.data)
+    print('='*30)
