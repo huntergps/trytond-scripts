@@ -30,10 +30,9 @@ RUN npm install && \
     grunt --force
 WORKDIR /tryton
 
-# ENV TRYTOND_CONFIG /tryton/trytond-scripts/config_lite.ini
 ENV TRYTOND_CONFIG /tryton/config.ini
 ENV TRYTONPASSFILE /tryton/TRYTONPASSFILE.ini
 
 EXPOSE 8000
 # CMD ["-v"]
-ENTRYPOINT ["python /tryton/trytond-scripts/generate_config.py; /usr/local/bin/trytond"]
+ENTRYPOINT ["/tryton/trytond-scripts/docker_entry_script.sh"]
