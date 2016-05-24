@@ -4,6 +4,7 @@ FROM ubuntu:14.04
 MAINTAINER Mikhail Savushkin <mikhail.savushkin@semilimes.com>
 
 # Update package repository. Install Dependencies
+RUN echo .
 RUN apt-get update && \
     apt-get -y install language-pack-en zsh htop build-essential git python-pip python-dev python-lxml libxml2-dev libxslt1-dev python-bcrypt libpq-dev unoconv postgresql postgresql-server-dev-all libsasl2-dev libssl-dev libffi-dev libldap2-dev python-setuptools nodejs nodejs-legacy npm wget && easy_install pip
 
@@ -14,25 +15,27 @@ ENV LC_ALL en_US.UTF-8
 
 ENV TRYTON_VER 3.8
 
-# Install utility scripts, Trytond, download all Trytond modules, SAO
+# Install SAO
+RUN apt-get install npm
+RUN npm install -g bower grunt grunt-cli
 WORKDIR /tryton
-RUN git clone https://github.com/semilimes/trytond-scripts.git && \
-    pip install -r trytond-scripts/requirements_tryton.txt && \
-    pip install proteus==$TRYTON_VER && \
-    /tryton/trytond-scripts/download_all_modules_pip.sh $TRYTON_VER
-
-RUN apt-get install npm && \
-    npm install -g bower grunt grunt-cli && \
-    git clone https://github.com/tryton/sao.git
+RUN git clone -b $TRYTON_VER https://github.com/tryton/sao.git
 WORKDIR /tryton/sao
-RUN npm install && \
-    bower install --allow-root && \
-    grunt --force
+RUN npm install
+RUN bower install --allow-root
+RUN grunt --force
+
+# Install utility scripts, Trytond, download all Trytond modules
 WORKDIR /tryton
+RUN git clone https://github.com/semilimes/trytond-scripts.git
+    # no modules for now
+    # /tryton/trytond-scripts/download_all_modules_pip.sh $TRYTON_VER # ....
+RUN pip install -r trytond-scripts/requirements_tryton.txt && \
+    pip install proteus==$TRYTON_VER
 
 ENV TRYTOND_CONFIG /tryton/config.ini
 ENV TRYTONPASSFILE /tryton/TRYTONPASSFILE.ini
 
 EXPOSE 8000
 # CMD ["-v"]
-ENTRYPOINT ["/tryton/trytond-scripts/docker_entry_script.sh"]
+ENTRYPOINT ["/bin/bash", "/tryton/trytond-scripts/docker_entry_script.sh"]
