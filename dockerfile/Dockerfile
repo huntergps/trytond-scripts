@@ -27,11 +27,10 @@ RUN grunt --force
 
 # Install utility scripts, Trytond, download all Trytond modules
 WORKDIR /tryton
-RUN git clone https://github.com/semilimes/trytond-scripts.git
-    # no modules for now
-    # /tryton/trytond-scripts/download_all_modules_pip.sh $TRYTON_VER # ....
-RUN pip install -r trytond-scripts/requirements_tryton.txt && \
-    pip install proteus==$TRYTON_VER
+RUN pip install proteus==$TRYTON_VER
+RUN git clone https://github.com/semilimes/trytond-scripts.git && \
+    # install only 1 module for now, testing/debug mode
+    /tryton/trytond-scripts/download_all_modules_pip.sh $TRYTON_VER
 
 ENV TRYTOND_CONFIG /tryton/config.ini
 ENV TRYTONPASSFILE /tryton/TRYTONPASSFILE.ini

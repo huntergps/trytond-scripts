@@ -14,3 +14,4 @@ rm $TRYTONPASSFILE
 
 #echo "Launching Trytond Server..."
 #exec /usr/local/bin/trytond -c $TRYTOND_CONFIG -d $DATABASE_NAME -v
+exec bash
