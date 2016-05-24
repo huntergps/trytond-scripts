@@ -31,11 +31,11 @@ RUN pip install proteus==$TRYTON_VER
 # install only 1 module for now, testing/debug mode
 RUN git clone https://github.com/semilimes/trytond-scripts.git && \
     /tryton/trytond-scripts/download_all_modules_pip.sh $TRYTON_VER && \
-    pip install -r /tryton/trytond-scripts/requirements_tryton.txt
+    pip install -r /tryton/trytond-scripts/requirements_tryton.txt  # ...
 
 ENV TRYTOND_CONFIG /tryton/config.ini
 ENV TRYTONPASSFILE /tryton/TRYTONPASSFILE.ini
 
 EXPOSE 8000
 # CMD ["-v"]
-ENTRYPOINT ["/bin/bash", "/tryton/trytond-scripts/docker_entry_script.sh"]
+ENTRYPOINT ["/bin/bash", "/tryton/trytond-scripts/docker_entry_script.sh", "$TRYTOND_FIRST_RUN"]
