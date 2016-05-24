@@ -3,7 +3,7 @@
 echo "Generating config..."
 python /tryton/trytond-scripts/generate_config.py
 
-if [ $# -gt 0 ]; then
+if [ $1 == 'first-run' ]; then
     echo "First run."
 
     echo "Generating password file..."
