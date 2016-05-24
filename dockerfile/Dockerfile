@@ -30,7 +30,8 @@ WORKDIR /tryton
 RUN pip install proteus==$TRYTON_VER
 RUN git clone https://github.com/semilimes/trytond-scripts.git && \
     # install only 1 module for now, testing/debug mode
-    /tryton/trytond-scripts/download_all_modules_pip.sh $TRYTON_VER
+    /tryton/trytond-scripts/download_all_modules_pip.sh $TRYTON_VER && \
+    pip install -r /tryton/trytond-scripts/requirements_tryton.txt
 
 ENV TRYTOND_CONFIG /tryton/config.ini
 ENV TRYTONPASSFILE /tryton/TRYTONPASSFILE.ini
