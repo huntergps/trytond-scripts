@@ -13,12 +13,18 @@ ENV LANGUAGE en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 
-ENV TRYTON_VER 4.0
 
 # Install SAO
 RUN apt-get install npm
 RUN npm install -g bower grunt grunt-cli
 WORKDIR /tryton
+
+##############################################
+# EDIT THIS ENV VAR TO CHANGE TRYTON VERSION #
+##############################################
+ENV TRYTON_VER 4.0
+
+# Continue installing SAO...
 RUN git clone -b $TRYTON_VER https://github.com/tryton/sao.git
 WORKDIR /tryton/sao
 RUN npm install
