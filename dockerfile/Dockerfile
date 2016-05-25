@@ -13,7 +13,7 @@ ENV LANGUAGE en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 
-ENV TRYTON_VER 3.8
+ENV TRYTON_VER 4.0
 
 # Install SAO
 RUN apt-get install npm
@@ -29,9 +29,9 @@ RUN grunt --force
 WORKDIR /tryton
 RUN pip install proteus==$TRYTON_VER
 # install only 1 module for now, testing/debug mode
-RUN git clone https://github.com/semilimes/trytond-scripts.git && \
+RUN git clone -b $TRYTON_VER https://github.com/semilimes/trytond-scripts.git && \
     /tryton/trytond-scripts/download_all_modules_pip.sh $TRYTON_VER && \
-    pip install -r /tryton/trytond-scripts/requirements_tryton.txt  # ......
+    pip install -r /tryton/trytond-scripts/requirements_tryton.txt  # .......
 
 ENV TRYTOND_CONFIG /tryton/config.ini
 ENV TRYTONPASSFILE /tryton/TRYTONPASSFILE.ini
