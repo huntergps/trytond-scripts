@@ -3,8 +3,6 @@
 echo "Generating config..."
 python /tryton/trytond-scripts/generate_config.py
 
-echo "First run."
-
 echo "Generating password file..."
 echo "$TRYTONPASS" > $TRYTONPASSFILE
 
