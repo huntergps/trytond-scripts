@@ -3,8 +3,6 @@
 echo "Generating config..."
 python /tryton/trytond-scripts/generate_config.py
 
-echo "First run."
-
 echo "Generating password file..."
 echo "$TRYTONPASS" > $TRYTONPASSFILE
 
@@ -17,6 +15,8 @@ rm $TRYTONPASSFILE
 if [ $1 == 'first-run' ]; then
     echo "Install ALL the modules..."
     python /tryton/trytond-scripts/install_modules.py
+else
+    echo "No first run since TRYTOND_FIRST_RUN="$1
 fi
 
 echo "Launching Trytond Server..."
