@@ -12,12 +12,8 @@ trytond-admin -c $TRYTOND_CONFIG -d $DATABASE_NAME -v --all
 echo "Removing password file..."
 rm $TRYTONPASSFILE
 
-if [ $1 == 'first-run' ]; then
-    echo "Install ALL the modules..."
-    python /tryton/trytond-scripts/install_modules.py
-else
-    echo "No first run since TRYTOND_FIRST_RUN="$1
-fi
+echo "Installing additional modules..."
+$1
 
 echo "Launching Trytond Server..."
 exec trytond -c $TRYTOND_CONFIG -d $DATABASE_NAME -v
