@@ -37,7 +37,7 @@ RUN pip install proteus==$TRYTON_VER
 # install only 1 module for now, testing/debug mode
 RUN git clone -b $TRYTON_VER https://github.com/semilimes/trytond-scripts.git && \
     /tryton/trytond-scripts/download_all_modules_pip.sh $TRYTON_VER && \
-    pip install -r /tryton/trytond-scripts/requirements_tryton.txt  # ..........
+    pip install -r /tryton/trytond-scripts/requirements_tryton.txt  # ...........
 
 ENV TRYTOND_CONFIG /tryton/config.ini
 ENV TRYTONPASSFILE /tryton/TRYTONPASSFILE.ini
